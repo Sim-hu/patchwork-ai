@@ -1,4 +1,4 @@
-import simpleGit, { type SimpleGit } from "simple-git";
+import { simpleGit, type SimpleGit } from "simple-git";
 import type { RepoContext } from "../types.js";
 import fs from "node:fs";
 import path from "node:path";
