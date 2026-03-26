@@ -1,0 +1,1 @@
+{"number":123,"title":"Fix typo in error message","body":"The error message says 'per-document' but should say 'per-index'.","labels":[{"name":"bug"},{"name":"good first issue"}],"user":{"login":"reporter"},"comments":0,"pull_request":null}
