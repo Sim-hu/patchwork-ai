@@ -10,11 +10,22 @@ export async function discoverCommand(repoUrl: string, options: { language?: str
   const octokit = new Octokit({ auth: githubToken });
   const limit = parseInt(options.limit ?? "10", 10);
   startStep("Searching for issues...");
-  const labels = ["good first issue", "help wanted", "bug"].join(",");
-  const { data: issues } = await octokit.rest.issues.listForRepo({ owner, repo, labels, state: "open", per_page: limit, sort: "updated", direction: "desc" });
-  succeedStep(`Found ${issues.length} potential issues`);
-  for (const issue of issues) {
-    if (issue.pull_request) continue;
+  const targetLabels = ["good first issue", "help wanted", "bug"];
+  const seen = new Set<number>();
+  const allIssues: any[] = [];
+  for (const label of targetLabels) {
+    const { data } = await octokit.rest.issues.listForRepo({ owner, repo, labels: label, state: "open", per_page: limit, sort: "updated", direction: "desc" });
+    for (const issue of data) {
+      if (!issue.pull_request && !seen.has(issue.number)) {
+        seen.add(issue.number);
+        allIssues.push(issue);
+      }
+    }
+  }
+  allIssues.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+  const results = allIssues.slice(0, limit);
+  succeedStep(`Found ${results.length} potential issues`);
+  for (const issue of results) {
     const labelNames = (issue.labels as any[]).map((l: any) => (typeof l === "string" ? l : l.name)).join(", ");
     info(`#${issue.number} - ${issue.title} [${labelNames}]`);
   }

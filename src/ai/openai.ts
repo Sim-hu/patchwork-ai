@@ -6,8 +6,8 @@ export class OpenAIProvider implements AIProvider {
   private defaultModel: string;
   private fastModel: string;
 
-  constructor(apiKey: string, model: string, fastModel: string) {
-    this.client = new OpenAI({ apiKey });
+  constructor(apiKey: string, model: string, fastModel: string, baseURL?: string) {
+    this.client = new OpenAI({ apiKey, ...(baseURL ? { baseURL } : {}) });
     this.defaultModel = model;
     this.fastModel = fastModel;
   }

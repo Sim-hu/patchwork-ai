@@ -76,10 +76,11 @@ export interface PRInfo {
 }
 
 export interface PatchworkConfig {
-  provider: "anthropic" | "openai" | "google";
+  provider: "anthropic" | "openai" | "openrouter" | "google";
   apiKey: string;
   model: string;
   fastModel: string;
+  baseUrl?: string;
 }
 
 export const DEFAULT_CONFIG: PatchworkConfig = {

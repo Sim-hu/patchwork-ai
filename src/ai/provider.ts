@@ -10,7 +10,9 @@ export function createProvider(config: PatchworkConfig): AIProvider {
     case "anthropic":
       return new AnthropicProvider(config.apiKey, config.model, config.fastModel);
     case "openai":
-      return new OpenAIProvider(config.apiKey, config.model, config.fastModel);
+      return new OpenAIProvider(config.apiKey, config.model, config.fastModel, config.baseUrl);
+    case "openrouter":
+      return new OpenAIProvider(config.apiKey, config.model, config.fastModel, "https://openrouter.ai/api/v1");
     default:
       throw new Error(`Unsupported provider: ${config.provider}`);
   }

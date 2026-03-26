@@ -20,6 +20,7 @@ export function loadConfig(configPath?: string): PatchworkConfig {
     apiKey: parsed.api_key ?? parsed.apiKey ?? DEFAULT_CONFIG.apiKey,
     model: parsed.model ?? DEFAULT_CONFIG.model,
     fastModel: parsed.fast_model ?? parsed.fastModel ?? DEFAULT_CONFIG.fastModel,
+    baseUrl: parsed.base_url ?? parsed.baseUrl,
   };
 }
 

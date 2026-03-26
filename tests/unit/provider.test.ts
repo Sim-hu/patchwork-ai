@@ -29,4 +29,12 @@ describe("createProvider", () => {
     expect(provider).toBeDefined();
     expect(provider.chat).toBeTypeOf("function");
   });
+
+  it("creates openrouter provider", () => {
+    const provider = createProvider({
+      provider: "openrouter", apiKey: "sk-or-test", model: "google/gemini-2.5-flash", fastModel: "google/gemini-2.5-flash",
+    });
+    expect(provider).toBeDefined();
+    expect(provider.chat).toBeTypeOf("function");
+  });
 });

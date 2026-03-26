@@ -13,7 +13,14 @@ export async function analyzeCommand(issueUrl: string, options: { model?: string
   const octokit = new Octokit({ auth: githubToken });
   const { owner, repo, number } = parseIssueUrl(issueUrl);
   startStep("Analyzing issue...");
-  const result = await analyzeIssue(octokit, owner, repo, number, ai);
+  let result;
+  try {
+    result = await analyzeIssue(octokit, owner, repo, number, ai);
+  } catch (err: any) {
+    const msg = err?.error?.error?.message ?? err?.message ?? String(err);
+    failStep(msg);
+    process.exit(1);
+  }
   succeedStep("Analysis complete");
   info(`Issue: #${result.issue.number} - ${result.issue.title}`);
   info(`Language: ${result.issue.language}`);
